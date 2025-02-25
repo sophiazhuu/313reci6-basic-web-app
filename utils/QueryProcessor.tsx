@@ -13,17 +13,33 @@ export default function QueryProcessor(query: string): string {
     return "Rohan";
   }
 
+  if (query.includes("what is your name?")) {
+    return "ChatGPT";
+  }
+
   // Handle mathematical queries
   if (query.includes("plus")) {
     return handleAddition(query);
+  }
+
+  if (query.includes("minus")) {
+    return handleSubtraction(query);
   }
 
   if (query.includes("multiplied by")) {
     return handleMultiplication(query);
   }
 
+  if (query.includes("to the power of")) {
+    return handlePower(query);
+  }
+
   if (query.includes("which of the following numbers is the largest")) {
     return handleLargestNumber(query);
+  }
+
+  if (query.includes("which of the following numbers are primes")) {
+    return handlePrimeNumbers(query);
   }
 
   if (query.includes("which of the following numbers is both a square and a cube")) {
@@ -42,6 +58,15 @@ function handleAddition(query: string): string {
   return "Invalid addition query";
 }
 
+// Function to handle subtraction queries
+function handleSubtraction(query: string): string {
+  let numbers = query.match(/\d+/g)?.map(Number);
+  if (numbers && numbers.length === 2) {
+    return (numbers[0] - numbers[1]).toString();
+  }
+  return "Invalid subtraction query";
+}
+
 // Function to handle multiplication queries
 function handleMultiplication(query: string): string {
   let numbers = query.match(/\d+/g)?.map(Number);
@@ -49,6 +74,15 @@ function handleMultiplication(query: string): string {
     return (numbers[0] * numbers[1]).toString();
   }
   return "Invalid multiplication query";
+}
+
+// Function to handle exponentiation queries
+function handlePower(query: string): string {
+  let numbers = query.match(/\d+/g)?.map(Number);
+  if (numbers && numbers.length === 2) {
+    return Math.pow(numbers[0], numbers[1]).toString();
+  }
+  return "Invalid power query";
 }
 
 // Function to handle finding the largest number
@@ -60,7 +94,25 @@ function handleLargestNumber(query: string): string {
   return "Invalid largest number query";
 }
 
-// Function to handle finding a number that is both a square and a cube
+// Function to determine prime numbers
+function handlePrimeNumbers(query: string): string {
+  let numbers = query.match(/\d+/g)?.map(Number);
+  if (!numbers) return "Invalid prime number query";
+
+  let primes = numbers.filter(isPrime);
+  return primes.length > 0 ? primes.join(", ") : "No prime numbers found";
+}
+
+// Helper function to check if a number is prime
+function isPrime(num: number): boolean {
+  if (num < 2) return false;
+  for (let i = 2, sqrt = Math.sqrt(num); i <= sqrt; i++) {
+    if (num % i === 0) return false;
+  }
+  return true;
+}
+
+// Function to find a number that is both a square and a cube
 function handleSquareAndCube(query: string): string {
   let numbers = query.match(/\d+/g)?.map(Number);
   if (numbers) {
