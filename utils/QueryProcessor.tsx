@@ -10,19 +10,18 @@ export default function QueryProcessor(query: string): string {
   }
 
   if (query.includes("andrew id")) {
-    return "Rohan";
+    return "sophiazh";
   }
 
   if (query.includes("what is your name?")) {
-    return "ChatGPT";
+    return "Rohan";
   }
 
-  // Handle addition queries
-  const sumMatch = query.match(/what is (\d+) plus (\d+)/i);
-  if (sumMatch) {
-    const num1 = parseInt(sumMatch[1], 10);
-    const num2 = parseInt(sumMatch[2], 10);
-    return (num1 + num2).toString();
+  // Handle any number of addition queries
+  const additionMatch = query.match(/what is ((?:\d+ plus )+\d+)/i);
+  if (additionMatch) {
+    const numbers = additionMatch[1].split(" plus ").map(Number);
+    return numbers.reduce((sum, num) => sum + num, 0).toString();
   }
 
   // Handle three-number addition
